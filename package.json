@@ -5,9 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-            "start": "node app.js"
-
-    
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +18,12 @@
   },
   "homepage": "https://github.com/akshaybhatia10/URL-Shortener-Microservice#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "body-parser": "^1.15.2",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.6.5",
+    "shortid": "^2.2.6",
+    "valid-url": "^1.0.9"
   }
 }
