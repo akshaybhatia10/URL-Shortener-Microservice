@@ -4,7 +4,7 @@ akshaybhatia10
 
 [Github](https://github.com/akshaybhatia10) 
 
-# URL-Shorener-API
+# URL-Shortener-API
 
 ### User stories:
 1. I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
