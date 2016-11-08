@@ -40,6 +40,19 @@ app.get("/new/:url(*)",function(req,res){
     }
 });
 
+app.get("/:short",function(req, res) {
+   var short = req.params.short ;
+   Url.findOne({short:short},function(err,foundUrl){
+       if(err){
+           console.log(err);
+       }
+       else{
+           var goTo = foundUrl.url ;
+           res.redirect(goTo);
+       }
+   });
+    
+});
     
 app.listen(process.env.PORT, process.env.IP);
 
