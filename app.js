@@ -20,6 +20,26 @@ app.get("/",function(req,res){
     
     res.render("index");
 });    
+
+app.get("/new/:url(*)",function(req,res){
+    var url = req.params.url ;
+    if(validUrl.isUri(url)){
+        var code = shortid.generate();
+        var newUrl = {url:url,short:code};
+        Url.create(newUrl,function(err,foundUrl){
+           if(err){
+               console.log(err);
+           } else{
+                   res.json({original:url,new: foundUrl.short });
+           }
+        });
+        
+    }
+    else{
+        res.json({ error: "Wrong url format, make sure you have a valid protocol and real site." });
+    }
+});
+
     
 app.listen(process.env.PORT, process.env.IP);
 
