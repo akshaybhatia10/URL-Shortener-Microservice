@@ -1,13 +1,10 @@
 var express = require("express"),
     app     = express(),
     mongoose = require("mongoose"),
-    validUrl = require("valid-url"),
     shortid = require("shortid");
-    
-    
+
 mongoose.connect("mongodb://localhost/url-shortener");
 app.set("view engine", "ejs");
-
 
 var urlSchema = new mongoose.Schema({
     
@@ -16,23 +13,25 @@ var urlSchema = new mongoose.Schema({
     
 });
 
-var Url = mongoose.model("Url", urlSchema);
-
+var Url = mongoose.model("Url", urlSchema);    
+    
+    
 app.get("/",function(req,res){
     
     res.render("index");
-});
+});    
 
+app.get("/")
 app.get("/new/:url(*)",function(req,res){
-    var site = req.params.url ;
-        if(validUrl.isUri(site)){
+    var url = req.params.url ;
+    if(yesOrNo(url)){
         var code = shortid.generate();
-        var newUrl = { url:site , short:code };
+        var newUrl = {url:url,short:code};
         Url.create(newUrl,function(err,foundUrl){
            if(err){
                console.log(err);
            } else{
-                 res.json({original: site , new: foundUrl.short });
+                   res.json({original:url,new: foundUrl.short });
            }
         });
         
@@ -40,23 +39,26 @@ app.get("/new/:url(*)",function(req,res){
     else{
         res.json({ error: "Wrong url format, make sure you have a valid protocol and real site." });
     }
+});
 
-        });
-  
-
-
-app.get("/:short",function(req, res) {
-   var short = req.params.short ;
-   Url.findOne({short:short},function(err,foundUrl){
+app.get("/:code",function(req, res) {
+   var code = req.params.code ;
+   Url.findOne({short : code},function(err,foundUrl){
        if(err){
            console.log(err);
        }
        else{
-           var goTo = foundUrl.url ;
-           res.redirect(goTo);
+           res.redirect(foundUrl.url);
        }
+       
    });
-    
 });
+
+//To validate URL
+function yesOrNo(value){
+      return /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
+    }
     
 app.listen(process.env.PORT, process.env.IP);
+
+
