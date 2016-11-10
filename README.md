@@ -17,23 +17,23 @@ akshaybhatia10
 ## Example usage:
 
 ```url
-.herokuapp.com/https://www.google.com
+https://akshay-url.herokuapp.com/new/https://www.google.com
 ```
 
 ## Example output:
 
 ```json
-{"original_url":"http://www.google.com","short_url":"https://little-url.herokuapp.com/8170"}
+{"original_url":"https://www.google.com","short_url":"https://akshay-url.herokuapp.com/H1rBWbMZe"}
 
 ```
 ## Usage:
 
 ```
-https://.herokuapp.com/2871
+https://akshay-url.herokuapp.com/H1rBWbMZe
 ```
 
 ### Will redirect to:
 
 ```
-https://www.google.com/
+https://www.google.com
 ```
