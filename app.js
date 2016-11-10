@@ -32,7 +32,7 @@ app.get("/new/:url(*)",function(req,res){
            if(err){
                console.log(err);
            } else{
-                   res.json({original:url,new: foundUrl.short });
+                   res.json({original: url , short_url: "https://akshay-url.herokuapp.com/" + foundUrl.short });
            }
         });
         
