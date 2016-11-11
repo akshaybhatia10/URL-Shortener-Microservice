@@ -3,7 +3,11 @@ var express = require("express"),
     mongoose = require("mongoose"),
     shortid = require("shortid");
 
-mongoose.connect("mongodb://localhost/url-shortener");
+//mongoose.connect(mongodb://yelpcamp);
+
+//Setting database on mongolab
+mongoose.connect("mongodb://url-short:url-shortener@ds151137.mlab.com:51137/url-shortener");
+//mongodb://<dbuser>:<dbpassword>@ds151137.mlab.com:51137/url-shortener
 app.set("view engine", "ejs");
 
 var urlSchema = new mongoose.Schema({
